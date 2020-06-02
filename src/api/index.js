@@ -1,3 +1,3 @@
-import * as Cards from './Auth';
+import * as Cards from './Cards';
 
 export { Cards };

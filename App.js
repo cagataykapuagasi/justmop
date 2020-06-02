@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { Scene, Modal, Router } from 'react-native-router-flux';
-import { Provider } from 'mobx-react';
 import { Home } from './src/screens';
 import { colors } from 'res';
 import RNBootSplash from 'react-native-bootsplash';
-import { store } from './src/store';
+import store from './src/store';
+import { Provider } from 'react-redux';
 
 const App = () => {
   return (
