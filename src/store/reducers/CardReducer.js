@@ -9,6 +9,7 @@ import {
 
 const INITIAL_STATE = {
   cards: [],
+  mechanics: [],
   loadingFetch: true,
   searchedCards: [],
   loadingSearch: false,
@@ -22,6 +23,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...INITIAL_STATE,
         cards: action.payload,
+        mechanics: action.mechanics,
         loadingFetch: false,
       };
     case FETCH_CARDS_FAILURE:

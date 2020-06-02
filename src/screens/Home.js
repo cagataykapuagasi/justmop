@@ -1,25 +1,65 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  SafeAreaView,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import { images, fonts, colors } from 'res';
 import { ScaledSheet } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCards } from '~/store/actions';
+import { Actions } from 'react-native-router-flux';
+
+const { width } = Dimensions.get('window');
 
 const Home = () => {
-  const cards = useSelector(state => state);
+  const cardState = useSelector(({ cardState }) => cardState);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  const fetch = () => {
     dispatch(fetchCards());
-    //console.log('test', await _getCards());
+  };
+  useEffect(() => {
+    fetch();
   }, []);
 
-  console.log('cards', cards);
+  const keyExtractor = (item, index) => index;
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => Actions.cardDetail(item)}
+      style={styles.card}>
+      <Text numberOfLines={1}>{item.mechanic}</Text>
+    </TouchableOpacity>
+  );
+
+  const ListHeaderComponent = () => (
+    <View style={styles.header}>
+      <Text style={styles.headerText}>Mekanikler</Text>
+    </View>
+  );
+
+  console.log('cards', cardState);
 
   return (
-    <View style={styles.container}>
-      <Text>My Starter Kit</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        stickyHeaderIndices={[0]}
+        ListHeaderComponent={ListHeaderComponent}
+        style={styles.flatlist}
+        data={cardState.mechanics}
+        renderItem={renderItem}
+        extraData={cardState.mechanics}
+        numColumns={2}
+        columnWrapperStyle={styles.columnWrapperStyle}
+        refreshing={cardState.loadingFetch}
+        onRefresh={fetch}
+        keyExtractor={keyExtractor}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -28,7 +68,31 @@ export default Home;
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+  },
+  flatlist: {
+    flex: 1,
+    paddingHorizontal: '20@s',
+  },
+  card: {
+    marginTop: '10@vs',
+    height: '40@vs',
+    width: width * 0.5 - 30,
     alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 8,
+  },
+  columnWrapperStyle: {
+    justifyContent: 'space-between',
+  },
+  header: {
+    marginTop: '10@vs',
+    height: '50@vs',
+    justifyContent: 'center',
+    backgroundColor: colors.background,
+  },
+  headerText: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
