@@ -3,13 +3,16 @@ import { View, StyleSheet, Text } from 'react-native';
 import { images, fonts, colors } from 'res';
 import { ScaledSheet } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCards } from '~/store/actions';
+import { fetchCards } from '~/store/actions';
 
 const Home = () => {
   const cards = useSelector(state => state);
   const dispatch = useDispatch();
 
-  _getCards = () => dispatch(getCards);
+  useEffect(() => {
+    dispatch(fetchCards());
+    //console.log('test', await _getCards());
+  }, []);
 
   console.log('cards', cards);
 
