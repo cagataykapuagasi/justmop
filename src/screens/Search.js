@@ -95,10 +95,10 @@ export default Search;
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: '20@s',
   },
   flatlist: {
     flex: 1,
+    paddingHorizontal: '20@s',
   },
   card: {
     marginTop: '10@vs',
@@ -131,5 +131,6 @@ const styles = ScaledSheet.create({
     marginTop: '10@vs',
     paddingHorizontal: '10@s',
     borderRadius: 8,
+    marginHorizontal: '20@s',
   },
 });
