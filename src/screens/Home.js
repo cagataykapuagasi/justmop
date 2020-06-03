@@ -1,11 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { colors } from 'res';
 import { ScaledSheet } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
@@ -40,7 +34,7 @@ const Home = () => {
   console.log('cards', cardState);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <FlatList
         stickyHeaderIndices={[0]}
         ListHeaderComponent={ListHeaderComponent}
@@ -54,7 +48,7 @@ const Home = () => {
         onRefresh={fetch}
         keyExtractor={keyExtractor}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -73,7 +67,7 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-between',
   },
   header: {
-    marginTop: '10@vs',
+    paddingTop: '10@vs',
     height: '50@vs',
     justifyContent: 'space-between',
     backgroundColor: colors.background,

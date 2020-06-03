@@ -1,39 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  SafeAreaView,
-  Dimensions,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-import { images, fonts, colors } from 'res';
+import React from 'react';
+import { View, Text, FlatList, Dimensions, Image } from 'react-native';
+import { colors } from 'res';
 import { ScaledSheet } from 'react-native-size-matters';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchCards } from '~/store/actions';
-import { Actions } from 'react-native-router-flux';
 import FlipCard from 'react-native-flip-card';
 
 const { width } = Dimensions.get('window');
 
 const CardDetail = ({ cards, mechanic }) => {
-  //const cardState = useSelector(({ cardState }) => cardState);
-  //const dispatch = useDispatch();
-
-  const fetch = () => {
-    //dispatch(fetchCards());
-  };
-  useEffect(() => {
-    console.log('geldik', cards);
-    //fetch();
-  }, []);
-
   const keyExtractor = (item, index) => index;
 
   const renderItem = ({ item }) => (
     <FlipCard useNativeDriver style={styles.card}>
-      {/* Face Side */}
       <Image
         resizeMode="cover"
         source={{
@@ -43,7 +20,6 @@ const CardDetail = ({ cards, mechanic }) => {
         }}
         style={styles.face}
       />
-      {/* Back Side */}
       <View style={styles.back}>
         <Text>{item.cardSet}</Text>
         <Text>{item.name}</Text>
@@ -60,7 +36,7 @@ const CardDetail = ({ cards, mechanic }) => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <FlatList
         stickyHeaderIndices={[0]}
         ListHeaderComponent={ListHeaderComponent}
@@ -68,11 +44,9 @@ const CardDetail = ({ cards, mechanic }) => {
         data={cards}
         renderItem={renderItem}
         numColumns={2}
-        //refreshing={cardState.loadingFetch}
-        //onRefresh={fetch}
         keyExtractor={keyExtractor}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

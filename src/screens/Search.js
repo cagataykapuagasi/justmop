@@ -3,7 +3,6 @@ import {
   View,
   Text,
   FlatList,
-  SafeAreaView,
   Dimensions,
   TextInput,
   Image,
@@ -69,7 +68,7 @@ const Search = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <TextInput
         key="spesific"
         onChangeText={search}
@@ -88,7 +87,7 @@ const Search = () => {
           text && !searchState.loadingSearch && ListEmptyComponent
         }
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -14,11 +14,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <Router
-        sceneStyle={styles.scene}
-        titleStyle={styles.title}
-        tintColor={colors.headerTint}
-        headerTintColor={colors.headerTint}>
+      <Router sceneStyle={styles.scene}>
         <Scene>
           <Scene component={Home} initial key="home" title="Anasayfa" />
           <Scene component={CardDetail} key="cardDetail" title="Kartlar" />
@@ -34,8 +30,5 @@ export default App;
 const styles = StyleSheet.create({
   scene: {
     backgroundColor: colors.background,
-  },
-  tab: {
-    backgroundColor: colors.lightGray,
   },
 });
