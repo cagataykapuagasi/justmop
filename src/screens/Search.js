@@ -18,6 +18,7 @@ import { Actions } from 'react-native-router-flux';
 import FlipCard from 'react-native-flip-card';
 
 const { width } = Dimensions.get('window');
+let searchTimer;
 
 const Search = () => {
   const searchState = useSelector(({ searchState }) => searchState);
@@ -25,13 +26,15 @@ const Search = () => {
   const [text, setText] = useState('');
 
   const search = name => {
+    clearTimeout(searchTimer);
     setText(name);
-
-    if (name.trim().length) {
-      dispatch(searchCards({ name }));
-    } else {
-      dispatch(searchUnMount());
+    if (!name.trim().length) {
+      return dispatch(searchUnMount());
     }
+
+    searchTimer = setTimeout(() => {
+      dispatch(searchCards({ name }));
+    }, 500);
   };
   useEffect(() => {
     return () => {

@@ -12,7 +12,7 @@ import { ScaledSheet } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCards } from '~/store/actions';
 import { Actions } from 'react-native-router-flux';
-import { Icon } from '~/components';
+import { Icon, Mechanic } from '~/components';
 
 const { width } = Dimensions.get('window');
 
@@ -29,13 +29,7 @@ const Home = () => {
 
   const keyExtractor = (item, index) => index;
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => Actions.cardDetail(item)}
-      style={styles.card}>
-      <Text numberOfLines={1}>{item.mechanic}</Text>
-    </TouchableOpacity>
-  );
+  const renderItem = ({ item }) => <Mechanic item={item} />;
 
   const ListHeaderComponent = () => (
     <View style={styles.header}>
@@ -77,15 +71,7 @@ const styles = ScaledSheet.create({
     flex: 1,
     paddingHorizontal: '20@s',
   },
-  card: {
-    marginTop: '10@vs',
-    height: '40@vs',
-    width: width * 0.5 - 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderRadius: 8,
-  },
+
   columnWrapperStyle: {
     justifyContent: 'space-between',
   },
