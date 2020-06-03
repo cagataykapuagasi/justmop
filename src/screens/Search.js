@@ -5,16 +5,13 @@ import {
   FlatList,
   SafeAreaView,
   Dimensions,
-  TouchableOpacity,
   TextInput,
   Image,
   ActivityIndicator,
 } from 'react-native';
-import { images, fonts, colors } from 'res';
 import { ScaledSheet } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
-import { searchCards, searchUnMount } from '~/store/actions';
-import { Actions } from 'react-native-router-flux';
+import { searchCards, searchUnMount, searchMount } from '~/store/actions';
 import FlipCard from 'react-native-flip-card';
 
 const { width } = Dimensions.get('window');
@@ -32,6 +29,8 @@ const Search = () => {
       return dispatch(searchUnMount());
     }
 
+    !searchState.loadingSearch && dispatch(searchMount());
+
     searchTimer = setTimeout(() => {
       dispatch(searchCards({ name }));
     }, 500);
@@ -42,7 +41,6 @@ const Search = () => {
     };
   }, []);
 
-  const ListHeaderComponent = () => <ActivityIndicator />;
   const ListEmptyComponent = () => (
     <Text style={styles.empty}>Sonuç bulunamadı.</Text>
   );
@@ -78,12 +76,11 @@ const Search = () => {
         placeholder="Arama"
         style={styles.input}
       />
+      {searchState.loadingSearch && <ActivityIndicator />}
+
       <FlatList
         style={styles.flatlist}
         data={text && searchState.searchedCards}
-        ListHeaderComponent={
-          searchState.loadingSearch && ListHeaderComponent
-        }
         renderItem={renderItem}
         numColumns={2}
         keyExtractor={keyExtractor}

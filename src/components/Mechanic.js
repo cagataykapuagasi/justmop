@@ -1,29 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  SafeAreaView,
-  Dimensions,
-  TouchableOpacity,
-  TextInput,
-  Image,
-  ActivityIndicator,
-} from 'react-native';
-import { images, fonts, colors } from 'res';
+import React from 'react';
+import { Text, Dimensions, TouchableOpacity } from 'react-native';
 import { ScaledSheet } from 'react-native-size-matters';
-import { useSelector, useDispatch } from 'react-redux';
-import { searchCards, searchUnMount } from '~/store/actions';
 import { Actions } from 'react-native-router-flux';
-import FlipCard from 'react-native-flip-card';
 import { debounce } from 'lodash';
 
 const { width } = Dimensions.get('window');
-let searchTimer;
 
 const Mechanic = ({ item }) => {
-  const [firstTap, setFirstTap] = useState(false);
-
   const onPress = debounce(
     () => {
       Actions.cardDetail(item);

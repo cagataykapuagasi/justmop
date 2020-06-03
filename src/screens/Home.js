@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
   FlatList,
   SafeAreaView,
-  Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import { images, fonts, colors } from 'res';
+import { colors } from 'res';
 import { ScaledSheet } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCards } from '~/store/actions';
 import { Actions } from 'react-native-router-flux';
 import { Icon, Mechanic } from '~/components';
-
-const { width } = Dimensions.get('window');
 
 const Home = () => {
   const cardState = useSelector(({ cardState }) => cardState);
