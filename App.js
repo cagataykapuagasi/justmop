@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Scene, Modal, Router } from 'react-native-router-flux';
-import { Home, CardDetail } from './src/screens';
+import { Home, CardDetail, Search } from './src/screens';
 import { colors } from 'res';
 import RNBootSplash from 'react-native-bootsplash';
 import store from './src/store';
@@ -22,6 +22,7 @@ const App = () => {
         <Scene>
           <Scene component={Home} initial key="home" title="Anasayfa" />
           <Scene component={CardDetail} key="cardDetail" title="Kartlar" />
+          <Scene component={Search} key="search" title="Arama" />
         </Scene>
       </Router>
     </Provider>

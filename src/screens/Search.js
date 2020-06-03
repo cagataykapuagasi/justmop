@@ -6,28 +6,43 @@ import {
   SafeAreaView,
   Dimensions,
   TouchableOpacity,
+  TextInput,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import { images, fonts, colors } from 'res';
 import { ScaledSheet } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchCards } from '~/store/actions';
+import { searchCards, searchUnMount } from '~/store/actions';
 import { Actions } from 'react-native-router-flux';
 import FlipCard from 'react-native-flip-card';
 
 const { width } = Dimensions.get('window');
 
-const CardDetail = ({ cards, mechanic }) => {
-  //const cardState = useSelector(({ cardState }) => cardState);
-  //const dispatch = useDispatch();
+const Search = () => {
+  const searchState = useSelector(({ searchState }) => searchState);
+  const dispatch = useDispatch();
+  let searchTimer;
 
-  const fetch = () => {
-    //dispatch(fetchCards());
+  const search = name => {
+    clearTimeout(searchTimer);
+
+    if (name.trim().length) {
+      searchTimer = setTimeout(() => {
+        dispatch(searchCards({ name }));
+      }, 300);
+    } else {
+      dispatch(searchUnMount());
+    }
   };
   useEffect(() => {
-    console.log('geldik', cards);
     //fetch();
+    return () => {
+      dispatch(searchUnMount());
+    };
   }, []);
+
+  const ListHeaderComponent = () => <ActivityIndicator />;
 
   const keyExtractor = (item, index) => index;
 
@@ -39,7 +54,7 @@ const CardDetail = ({ cards, mechanic }) => {
         source={{
           uri:
             item.img ||
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR-cjdNjHYhNDecueLnscXjITrfd5oda6rfEpWfQY6C9UseP8pu&usqp=CAU',
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR-cjdNjHYhNDecueLnscXjITrfd5oda6rfEpWfQY6C9UseP8pu&usqp=CAU', //not found
         }}
         style={styles.face}
       />
@@ -53,38 +68,37 @@ const CardDetail = ({ cards, mechanic }) => {
     </FlipCard>
   );
 
-  const ListHeaderComponent = () => (
-    <View style={styles.header}>
-      <Text style={styles.headerText}>{mechanic}</Text>
-    </View>
-  );
-
   return (
     <SafeAreaView style={styles.container}>
+      <TextInput
+        key="spesific"
+        onChangeText={search}
+        placeholder="Arama"
+        style={styles.input}
+      />
       <FlatList
-        stickyHeaderIndices={[0]}
-        ListHeaderComponent={ListHeaderComponent}
         style={styles.flatlist}
-        data={cards}
+        data={searchState.searchedCards}
+        ListHeaderComponent={
+          searchState.loadingSearch && ListHeaderComponent
+        }
         renderItem={renderItem}
         numColumns={2}
-        //refreshing={cardState.loadingFetch}
-        //onRefresh={fetch}
         keyExtractor={keyExtractor}
       />
     </SafeAreaView>
   );
 };
 
-export default CardDetail;
+export default Search;
 
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: '20@s',
   },
   flatlist: {
     flex: 1,
-    paddingHorizontal: '20@s',
   },
   card: {
     marginTop: '10@vs',
@@ -105,15 +119,17 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: '20@vs',
-    borderWidth: 1,
   },
-  header: {
-    height: '50@vs',
-    justifyContent: 'center',
-    backgroundColor: colors.background,
-  },
+
   headerText: {
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  input: {
+    borderWidth: 1,
+    height: '50@vs',
+    marginTop: '10@vs',
+    paddingHorizontal: '10@s',
+    borderRadius: 8,
   },
 });

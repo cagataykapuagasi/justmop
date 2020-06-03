@@ -12,6 +12,7 @@ import { ScaledSheet } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCards } from '~/store/actions';
 import { Actions } from 'react-native-router-flux';
+import { Icon } from '~/components';
 
 const { width } = Dimensions.get('window');
 
@@ -39,6 +40,9 @@ const Home = () => {
   const ListHeaderComponent = () => (
     <View style={styles.header}>
       <Text style={styles.headerText}>Mekanikler</Text>
+      <TouchableOpacity onPress={Actions.search}>
+        <Icon type="antdesign" name="search1" size={25} />
+      </TouchableOpacity>
     </View>
   );
 
@@ -88,8 +92,10 @@ const styles = ScaledSheet.create({
   header: {
     marginTop: '10@vs',
     height: '50@vs',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     backgroundColor: colors.background,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   headerText: {
     fontSize: 16,

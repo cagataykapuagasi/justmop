@@ -5,5 +5,5 @@ export function getCards() {
 }
 
 export function searchCards({ name }) {
-  return request('get', 'cards/search', { name });
+  return request('get', `cards/search/${name}`);
 }
