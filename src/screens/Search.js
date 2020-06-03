@@ -22,27 +22,27 @@ const { width } = Dimensions.get('window');
 const Search = () => {
   const searchState = useSelector(({ searchState }) => searchState);
   const dispatch = useDispatch();
-  let searchTimer;
+  const [text, setText] = useState('');
 
   const search = name => {
-    clearTimeout(searchTimer);
+    setText(name);
 
     if (name.trim().length) {
-      searchTimer = setTimeout(() => {
-        dispatch(searchCards({ name }));
-      }, 300);
+      dispatch(searchCards({ name }));
     } else {
       dispatch(searchUnMount());
     }
   };
   useEffect(() => {
-    //fetch();
     return () => {
       dispatch(searchUnMount());
     };
   }, []);
 
   const ListHeaderComponent = () => <ActivityIndicator />;
+  const ListEmptyComponent = () => (
+    <Text style={styles.empty}>Sonuç bulunamadı.</Text>
+  );
 
   const keyExtractor = (item, index) => index;
 
@@ -58,7 +58,6 @@ const Search = () => {
         }}
         style={styles.face}
       />
-      {/* Back Side */}
       <View style={styles.back}>
         <Text>{item.cardSet}</Text>
         <Text>{item.name}</Text>
@@ -78,13 +77,16 @@ const Search = () => {
       />
       <FlatList
         style={styles.flatlist}
-        data={searchState.searchedCards}
+        data={text && searchState.searchedCards}
         ListHeaderComponent={
           searchState.loadingSearch && ListHeaderComponent
         }
         renderItem={renderItem}
         numColumns={2}
         keyExtractor={keyExtractor}
+        ListEmptyComponent={
+          text && !searchState.loadingSearch && ListEmptyComponent
+        }
       />
     </SafeAreaView>
   );
@@ -132,5 +134,8 @@ const styles = ScaledSheet.create({
     paddingHorizontal: '10@s',
     borderRadius: 8,
     marginHorizontal: '20@s',
+  },
+  empty: {
+    textAlign: 'center',
   },
 });
